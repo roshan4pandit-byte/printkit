@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PrintKit - Free 3D Printing Calculators and Guides">
+<title>PrintKit — 3D Printing Toolkit</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+    font-family:Arial,Segoe UI,sans-serif;
+    background:#080a0f;
+    color:#f2f5f7;
+    line-height:1.5;
+}
+
+html{scroll-behavior:smooth}
+a{text-decoration:none;color:inherit}
+
+.container{
+    width:92%;
+    max-width:1100px;
+    margin:auto;
+}
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:#080a0fee;
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid #202832;
+    padding:18px 0;
+}
+
+.nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.logo span{
+    color:#55dc91;
+}
+
+.nav a{
+    margin-left:22px;
+    color:#9da7b4;
+    font-size:14px;
+}
+
+.nav a:hover{color:#55dc91}
+
+.hero{
+    text-align:center;
+    padding:100px 20px 80px;
+    background:radial-gradient(circle at top,#153a29,transparent 55%);
+}
+
+.badge{
+    display:inline-block;
+    padding:7px 15px;
+    border:1px solid #28543d;
+    border-radius:30px;
+    color:#65df9a;
+    background:#102019;
+    font-size:12px;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:clamp(45px,7vw,80px);
+    line-height:1;
+}
+
+.hero h1 span{color:#55dc91}
+
+.hero p{
+    max-width:650px;
+    margin:25px auto;
+    color:#9ca7b4;
+}
+
+.button{
+    display:inline-block;
+    padding:13px 22px;
+    background:#55dc91;
+    color:#07110b;
+    border-radius:10px;
+    font-weight:bold;
+    border:0;
+    cursor:pointer;
+}
+
+section{padding:70px 0}
+
+.dark{background:#0c1016}
+
+h2{
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:#8e99a7;
+    margin-bottom:28px;
+}
+
+.tools{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.card{
+    background:#10151c;
+    border:1px solid #202a35;
+    border-radius:16px;
+    padding:24px;
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#55dc91;
+}
+
+.icon{
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.card h3{margin-bottom:8px}
+
+.card p{
+    color:#8f9aa8;
+    font-size:14px;
+    min-height:42px;
+    margin-bottom:18px;
+}
+
+.smallbtn{
+    display:inline-block;
+    padding:9px 14px;
+    border:1px solid #303b48;
+    border-radius:8px;
+    font-size:13px;
+}
+
+.smallbtn:hover{
+    border-color:#55dc91;
+}
+
+.calculator{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.panel{
+    background:#10151c;
+    border:1px solid #202a35;
+    border-radius:16px;
+    padding:24px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+label{
+    display:block;
+    font-size:13px;
+    color:#9ba6b4;
+    margin-bottom:6px;
+}
+
+input,select{
+    width:100%;
+    padding:11px;
+    background:#080b10;
+    border:1px solid #2b3541;
+    color:white;
+    border-radius:8px;
+    outline:none;
+}
+
+input:focus,select:focus{
+    border-color:#55dc91;
+}
+
+.result{
+    margin-top:18px;
+    padding:20px;
+    background:#0b1811;
+    border:1px solid #28543d;
+    border-radius:12px;
+}
+
+.big{
+    font-size:32px;
+    font-weight:bold;
+    color:#65df9a;
+}
+
+.rows{
+    margin-top:15px;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    padding:6px 0;
+    color:#9ca7b4;
+}
+
+.row strong{color:white}
+
+.converter{
+    display:grid;
+    grid-template-columns:1fr 1fr auto;
+    gap:15px;
+    align-items:end;
+}
+
+.upload{
+    border:1px dashed #3b4653;
+    padding:35px;
+    text-align:center;
+    border-radius:12px;
+    color:#929dab;
+    cursor:pointer;
+}
+
+.upload:hover{
+    border-color:#55dc91;
+}
+
+.upload input{display:none}
+
+.guides{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.guide ul{
+    padding-left:20px;
+    color:#9ca7b4;
+}
+
+.guide li{
+    margin:9px 0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    text-align:left;
+    padding:12px;
+    border-bottom:1px solid #26303b;
+}
+
+th{color:#65df9a}
+
+.tip{
+    margin-top:15px;
+    color:#65df9a;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    border-top:1px solid #202832;
+    color:#7f8996;
+}
+
+@media(max-width:800px){
+    .tools{grid-template-columns:1fr 1fr}
+    .calculator,.guides{grid-template-columns:1fr}
+}
+
+@media(max-width:550px){
+    .tools,.grid,.converter{grid-template-columns:1fr}
+    .navlinks{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="container nav">
+<div class="logo">Print<span>Kit</span></div>
+
+<div class="navlinks">
+<a href="#tools">Tools</a>
+<a href="#cost">Cost</a>
+<a href="#stl">STL</a>
+<a href="#guides">Guides</a>
+</div>
+</div>
+</nav>
+
+<header class="hero">
+<div class="container">
+
+<div class="badge">FREE 3D PRINTING TOOLKIT</div>
+
+<h1>
+Print smarter.<br>
+<span>Price better.</span>
+</h1>
+
+<p>
+Free calculators and guides for 3D printing makers,
+hobbyists and businesses.
+</p>
+
+<a href="#tools" class="button">Explore Tools ↓</a>
+
+</div>
+</header>
+
+<section id="tools">
+<div class="container">
+
+<h2>3D Print Toolkit</h2>
+<p class="subtitle">Useful tools for everyday 3D printing.</p>
+
+<div class="tools">
+
+<div class="card">
+<div class="icon">₹</div>
+<h3>Print Cost Calculator</h3>
+<p>Calculate filament, electricity, labour and profit.</p>
+<a class="smallbtn" href="#cost">Open Tool</a>
+</div>
+
+<div class="card">
+<div class="icon">⚖</div>
+<h3>Filament Cost</h3>
+<p>Convert filament weight into material cost.</p>
+<a class="smallbtn" href="#filament">Open Tool</a>
+</div>
+
+<div class="card">
+<div class="icon">↔</div>
+<h3>Unit Converter</h3>
+<p>Convert mm, cm and inches instantly.</p>
+<a class="smallbtn" href="#converter">Open Tool</a>
+</div>
+
+<div class="card">
+<div class="icon">◈</div>
+<h3>STL Dimensions</h3>
+<p>Upload an STL and calculate its dimensions.</p>
+<a class="smallbtn" href="#stl">Open Tool</a>
+</div>
+
+<div class="card">
+<div class="icon">▦</div>
+<h3>Infill Calculator</h3>
+<p>Estimate weight after changing infill.</p>
+<a class="smallbtn" href="#infill">Open Tool</a>
+</div>
+
+<div class="card">
+<div class="icon">%</div>
+<h3>Selling Price</h3>
+<p>Calculate a profitable selling price.</p>
+<a class="smallbtn" href="#cost">Open Tool</a>
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="dark" id="cost">
+<div class="container">
+
+<h2>Print Cost Calculator</h2>
+<p class="subtitle">Calculate your estimated 3D printing price.</p>
+
+<div class="calculator">
+
+<div class="panel">
+
+<div class="grid">
+
+<div>
+<label>Filament Used (g)</label>
+<input id="grams" type="number" value="120">
+</div>
+
+<div>
+<label>Filament Price (₹/kg)</label>
+<input id="price" type="number" value="1200">
+</div>
+
+<div>
+<label>Print Time (hours)</label>
+<input id="hours" type="number" value="6">
+</div>
+
+<div>
+<label>Printer Power (W)</label>
+<input id="power" type="number" value="250">
+</div>
+
+<div>
+<label>Electricity (₹/kWh)</label>
+<input id="electricity" type="number" value="8">
+</div>
+
+<div>
+<label>Labour (₹)</label>
+<input id="labour" type="number" value="30">
+</div>
+
+<div>
+<label>Other Cost (₹)</label>
+<input id="other" type="number" value="0">
+</div>
+
+<div>
+<label>Profit (%)</label>
+<input id="profitPercent" type="number" value="30">
+</div>
+
+</div>
+
+<br>
+
+<button class="button" onclick="calculateCost()">
+Calculate Price
+</button>
+
+</div>
+
+<div class="panel">
+
+<h3>Your Estimate</h3>
+
+<div class="result">
+
+<div style="color:#9ca7b4">
+Recommended Selling Price
+</div>
+
+<div class="big" id="finalPrice">
+₹0
+</div>
+
+<div class="rows">
+
+<div class="row">
+<span>Material</span>
+<strong id="materialCost">₹0</strong>
+</div>
+
+<div class="row">
+<span>Electricity</span>
+<strong id="electricCost">₹0</strong>
+</div>
+
+<div class="row">
+<span>Labour + Other</span>
+<strong id="extraCost">₹0</strong>
+</div>
+
+<div class="row">
+<span>Profit</span>
+<strong id="profitCost">₹0</strong>
+</div>
+
+</div>
+
+</div>
+
+<p class="tip">
+Tip: Add packaging and failed-print cost in Other Cost.
+</p>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<section id="filament">
+<div class="container">
+
+<h2>Filament Weight → Cost</h2>
+<p class="subtitle">Calculate your material cost.</p>
+
+<div class="panel">
+
+<div class="grid">
+
+<div>
+<label>Weight (grams)</label>
+<input id="filamentWeight" type="number" value="100"
+oninput="filamentCost()">
+</div>
+
+<div>
+<label>Price (₹/kg)</label>
+<input id="filamentPrice" type="number" value="1200"
+oninput="filamentCost()">
+</div>
+
+</div>
+
+<div class="result">
+<div class="big" id="filamentResult">₹120</div>
+Material Cost
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="dark" id="converter">
+<div class="container">
+
+<h2>mm ↔ cm ↔ inch Converter</h2>
+<p class="subtitle">Convert dimensions instantly.</p>
+
+<div class="panel">
+
+<div class="converter">
+
+<div>
+<label>Value</label>
+<input id="value" type="number" value="100"
+oninput="convertUnits()">
+</div>
+
+<div>
+<label>From</label>
+<select id="unit" onchange="convertUnits()">
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="inch">inch</option>
+</select>
+</div>
+
+<button class="smallbtn" onclick="convertUnits()">
+Convert
+</button>
+
+</div>
+
+<div class="result">
+
+<div class="row">
+<span>Millimeters</span>
+<strong id="mm">100</strong>
+</div>
+
+<div class="row">
+<span>Centimeters</span>
+<strong id="cm">10</strong>
+</div>
+
+<div class="row">
+<span>Inches</span>
+<strong id="inch">3.937</strong>
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<section id="stl">
+<div class="container">
+
+<h2>STL Dimensions Calculator</h2>
+<p class="subtitle">
+Upload an STL file to estimate its bounding-box dimensions.
+</p>
+
+<div class="panel">
+
+<label class="upload">
+Click here to select STL file
+<br>
+<small>File is processed locally in your browser</small>
+
+<input type="file"
+accept=".stl"
+onchange="readSTL(this.files[0])">
+
+</label>
+
+<div id="stlResult"></div>
+
+</div>
+</div>
+</section>
+
+<section class="dark" id="infill">
+<div class="container">
+
+<h2>Infill Calculator</h2>
+<p class="subtitle">
+Estimate approximate weight after changing infill.
+</p>
+
+<div class="panel">
+
+<div class="grid">
+
+<div>
+<label>Current Weight (g)</label>
+<input id="currentWeight" type="number" value="100">
+</div>
+
+<div>
+<label>Current Infill (%)</label>
+<input id="oldInfill" type="number" value="20">
+</div>
+
+<div>
+<label>New Infill (%)</label>
+<input id="newInfill" type="number" value="40">
+</div>
+
+</div>
+
+<br>
+
+<button class="button" onclick="calculateInfill()">
+Calculate
+</button>
+
+<div class="result">
+
+<div class="big" id="newWeight">
+100 g
+</div>
+
+<div id="weightChange"></div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<section id="guides">
+<div class="container">
+
+<h2>3D Printing Guides</h2>
+<p class="subtitle">Quick reference for makers.</p>
+
+<div class="guides">
+
+<div class="panel guide">
+
+<h3>PLA vs PETG vs ABS</h3>
+
+<br>
+
+<table>
+
+<tr>
+<th>Material</th>
+<th>Ease</th>
+<th>Heat</th>
+</tr>
+
+<tr>
+<td>PLA</td>
+<td>★★★★★</td>
+<td>Low</td>
+</tr>
+
+<tr>
+<td>PETG</td>
+<td>★★★★☆</td>
+<td>Medium</td>
+</tr>
+
+<tr>
+<td>ABS</td>
+<td>★★★☆☆</td>
+<td>High</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="panel guide">
+
+<h3>Nozzle Size Guide</h3>
+
+<ul>
+<li><b>0.2 mm</b> — Fine details</li>
+<li><b>0.4 mm</b> — All-round printing</li>
+<li><b>0.6 mm</b> — Faster functional prints</li>
+<li><b>0.8 mm</b> — Large and fast prints</li>
+</ul>
+
+</div>
+
+<div class="panel guide">
+
+<h3>Layer Height Guide</h3>
+
+<ul>
+<li><b>0.08–0.12 mm</b> — High detail</li>
+<li><b>0.16–0.20 mm</b> — Normal quality</li>
+<li><b>0.24–0.28 mm</b> — Faster printing</li>
+<li><b>0.30+ mm</b> — Speed focused</li>
+</ul>
+
+</div>
+
+<div class="panel guide">
+
+<h3>Print Checklist</h3>
+
+<ul>
+<li>Check bed level</li>
+<li>Check first layer</li>
+<li>Use correct temperature</li>
+<li>Dry wet filament</li>
+<li>Check supports</li>
+<li>Choose correct orientation</li>
+</ul>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<footer>
+PrintKit © 2026 · Free tools for the 3D printing community
+</footer>
+
+<script>
+
+function money(x){
+return "₹"+Math.max(0,x).toFixed(2);
+}
+
+function num(id){
+return parseFloat(document.getElementById(id).value)||0;
+}
+
+function calculateCost(){
+
+let material=num("grams")*num("price")/1000;
+
+let electricity=
+num("hours")*
+num("power")/1000*
+num("electricity");
+
+let extra=num("labour")+num("other");
+
+let base=material+electricity+extra;
+
+let profit=base*num("profitPercent")/100;
+
+let total=base+profit;
+
+document.getElementById("materialCost").textContent=money(material);
+
+document.getElementById("electricCost").textContent=money(electricity);
+
+document.getElementById("extraCost").textContent=money(extra);
+
+document.getElementById("profitCost").textContent=money(profit);
+
+document.getElementById("finalPrice").textContent=money(total);
+}
+
+function filamentCost(){
+
+let weight=num("filamentWeight");
+
+let price=num("filamentPrice");
+
+document.getElementById("filamentResult").textContent=
+money(weight*price/1000);
+}
+
+function convertUnits(){
+
+let value=num("value");
+
+let unit=document.getElementById("unit").value;
+
+let mm;
+
+if(unit==="mm") mm=value;
+else if(unit==="cm") mm=value*10;
+else mm=value*25.4;
+
+document.getElementById("mm").textContent=mm.toFixed(3);
+
+document.getElementById("cm").textContent=
+(mm/10).toFixed(3);
+
+document.getElementById("inch").textContent=
+(mm/25.4).toFixed(4);
+}
+
+function calculateInfill(){
+
+let weight=num("currentWeight");
+
+let old=num("oldInfill");
+
+let newer=num("newInfill");
+
+if(old<=0)return;
+
+let newWeight=
+weight*(1+(newer-old)/100);
+
+document.getElementById("newWeight").textContent=
+newWeight.toFixed(1)+" g";
+
+document.getElementById("weightChange").textContent=
+"Estimated change: "+
+(newWeight-weight>=0?"+":"")+
+(newWeight-weight).toFixed(1)+" g";
+}
+
+function readSTL(file){
+
+if(!file)return;
+
+let reader=new FileReader();
+
+reader.onload=function(e){
+
+let buffer=e.target.result;
+
+let view=new DataView(buffer);
+
+let triangles=[];
+
+if(buffer.byteLength>=84){
+
+let count=view.getUint32(80,true);
+
+if(84+count*50<=buffer.byteLength){
+
+for(let i=0;i<count;i++){
+
+let offset=84+i*50;
+
+for(let j=0;j<3;j++){
+
+let p=offset+12+j*12;
+
+triangles.push([
+view.getFloat32(p,true),
+view.getFloat32(p+4,true),
+view.getFloat32(p+8,true)
+]);
+
+}
+
+}
+
+}
+
+}
+
+if(triangles.length===0){
+
+let text=new TextDecoder().decode(buffer);
+
+let matches=text.match(
+/vertex\s+([-+\d.eE]+)\s+([-+\d.eE]+)\s+([-+\d.eE]+)/gi
+);
+
+if(matches){
+
+matches.forEach(m=>{
+
+let p=m.match(
+/([-+\d.eE]+)\s+([-+\d.eE]+)\s+([-+\d.eE]+)/
+);
+
+triangles.push([
+parseFloat(p[1]),
+parseFloat(p[2]),
+parseFloat(p[3])
+]);
+
+});
+
+}
+
+}
+
+if(triangles.length===0){
+
+document.getElementById("stlResult").innerHTML=
+'<div class="result">Could not read this STL file.</div>';
+
+return;
+}
+
+let min=[Infinity,Infinity,Infinity];
+
+let max=[-Infinity,-Infinity,-Infinity];
+
+triangles.forEach(p=>{
+
+for(let i=0;i<3;i++){
+
+min[i]=Math.min(min[i],p[i]);
+
+max[i]=Math.max(max[i],p[i]);
+
+}
+
+});
+
+let x=max[0]-min[0];
+
+let y=max[1]-min[1];
+
+let z=max[2]-min[2];
+
+document.getElementById("stlResult").innerHTML=
+'<div class="result">'+
+'<div class="big">'+
+x.toFixed(2)+' × '+
+y.toFixed(2)+' × '+
+z.toFixed(2)+' mm'+
+'</div>'+
+'Estimated STL bounding-box dimensions'+
+'</div>';
+
+};
+
+reader.readAsArrayBuffer(file);
+}
+
+calculateCost();
+filamentCost();
+convertUnits();
+calculateInfill();
+
+</script>
+
+</body>
+</html>
